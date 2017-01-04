@@ -45,16 +45,15 @@ __Non functional requirements:__
 - best coverage of functional requirements
 - real back-pressure support
 - moderate size (objective of v3 is to have highland core separated from transformations)
-- highest ratio of open issues
 - lesser performance
 - based on EventEmitters and Streams, fits in Node.js ecosystem but may increase footprint in browser land
 - active development towards v3
 
-#### Most.js
-- most mature project
-- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf
-- great promise support
-- completely reactive, no back-pressure
+#### Kefir
+- __blocker:__ no async processing support
+- no back-pressure
+- adequate performance
+- minimal size
 
 #### RxJS 4
 - poor performance, see https://github.com/cujojs/most/tree/master/test/perf
@@ -67,6 +66,12 @@ __Non functional requirements:__
 - not very mature yet (first release in 12/2016)
 - completely reactive, no back-pressure
 - backed by Netflix, Microsoft and Google
+
+#### Most.js
+- most mature project
+- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf
+- great promise support
+- completely reactive, no back-pressure
 
 ### Other candidates:
 
