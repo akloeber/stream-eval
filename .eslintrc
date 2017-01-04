@@ -1,0 +1,90 @@
+env:
+  node: true
+  es6: true
+
+globals:
+  describe: false
+  it: false
+  before: false
+  after: false
+  beforeEach: false
+  afterEach: false
+  assert: false
+  expect: false
+
+rules:
+  block-scoped-var: 1
+  callback-return: 2
+  comma-dangle: [2, "never"]
+  curly: 2
+  dot-notation: 1
+  eqeqeq: 2
+  global-require: 1
+  guard-for-in: 2
+  handle-callback-err: 1
+  indent: [1, 2]
+  max-len: [1, 100, 2, {"ignoreComments": true, "ignoreUrls": true}]
+  no-catch-shadow: 2
+  no-cond-assign: 2
+  no-delete-var: 2
+  no-dupe-args: 2
+  no-dupe-keys: 2
+  no-duplicate-case: 2
+  no-eq-null: 2
+  no-empty: 2
+  no-empty-character-class: 2
+  no-eval: 2
+  no-extend-native: [2, {"exceptions": ["Object"]}]
+  no-extra-bind: 2
+  no-extra-semi: 2
+  no-floating-decimal: 1
+  no-func-assign: 2
+  no-implicit-coercion: 2
+  no-implied-eval: 2
+  no-invalid-this: 2
+  no-invalid-regexp: 2
+  no-irregular-whitespace: 2
+  no-labels: 2
+  no-lone-blocks: 2
+  no-loop-func: 1
+  no-mixed-requires: 1
+  no-multi-spaces: 1
+  no-multi-str: 1
+  no-native-reassign: 2
+  no-new: 1
+  no-new-func: 2
+  no-new-require: 2
+  no-new-wrappers: 1
+  no-negated-in-lhs: 2
+  no-octal: 2
+  no-obj-calls: 2
+  no-path-concat: 1
+  no-plusplus: 0
+  no-proto: 2
+  no-redeclare: 2
+  no-self-compare: 2
+  no-sequences: 2
+  no-shadow: 2
+  no-shadow-restricted-names: 2
+  no-sparse-arrays: 2
+  no-throw-literal: 2
+  no-undef: 2
+  no-undef-init: 1
+  no-unreachable: 2
+  no-unused-expressions: 0
+  no-unused-vars: [1, {"args": "none"}]
+  no-use-before-define: [2, "nofunc"]
+  no-useless-call: 1
+  no-useless-concat: 1
+  no-void: 2
+  no-warning-comments: 1
+  no-with: 2
+  quotes: [1, "single"]
+  radix: 2
+  semi: [1, "always"]
+  strict: [1, "global"]
+  use-isnan: 2
+  valid-jsdoc: [1, {"prefer": {return: "returns"}, "requireReturn": false}]
+  valid-typeof: 2
+  wrap-iife: 2
+  yoda: 1
