@@ -28,6 +28,17 @@
 <a name="fn2">[2]</a>: Back pressure and also flow control (i.e. via `Observable#controlled` in RxJS 4) are not implemented (see https://github.com/ReactiveX/rxjs/blob/master/MIGRATION.md#operators-renamed-or-removed) and possibly never will (see [discussion](https://github.com/ReactiveX/rxjs/issues/71)).  
 <a name="fn3">[3]</a>: Not usable if source control needs to be added externally.  
 
+### Use case
+- stream values from ES6 `Iterable` source
+- Partition values into chunks
+- Sequentially execute async task with each chunk
+- resolve `Promise` once all chunks have been processed
+
+__Non functional requirements:__
+- values should flow through stream only as fast as the ycan be processed by the task (back-pressure)
+- no complete consumption of source upfront in conjunction with intermediate buffering of the values
+- flow control should be implemented with back pressure rather than a controller for the emitting source which needs to be passed along explicitely
+
 ### Notes
 
 #### Highland.js

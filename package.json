@@ -1,6 +1,10 @@
 {
   "name": "stream-eval",
   "version": "1.0.0",
+  "author": {
+    "name": "Andreas Klöber",
+    "email": "andreas@kloeber.me"
+  },
   "license": "MIT",
   "dependencies": {
     "highland": "^2.10.1",
