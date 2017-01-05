@@ -7,14 +7,15 @@ const Flowable = require('./Flowable');
 const flow = new Flowable(common.createIterable());
 
 var sub;
-const stream = Kefir.stream(emitter => {
-  sub = flow.subscribe({
-    next: (x) => emitter.emit(x),
-    complete: () => emitter.end()
-  });
-});
 
-stream
+Kefir
+  .stream(emitter => {
+    sub = flow.subscribe({
+      next: (x) => emitter.emit(x),
+      complete: () => emitter.end()
+    });
+    sub.request(common.CHUNK_SIZE);
+  })
   .bufferWithCount(common.CHUNK_SIZE)
   //.spy()
   .flatMap(x => Kefir.fromPromise(new Promise(pResolve => {
@@ -27,5 +28,3 @@ stream
   })))
   .toPromise()
   .then(() => console.log('DONE'));
-
-sub.request(common.CHUNK_SIZE);
