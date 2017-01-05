@@ -9,16 +9,23 @@ const _ = require('highland');
 const BENCH_OPTS = {
   defer: true,
   setup: function() {
-    var COUNT = 1000;
-    var CHUNK_SIZE = 2;
-    var DURATION_ASYNC_TASK = 0;
+    console.log('SETUP', this);
     var ITERABLE = common.createIterable();
   },
-  teardown: function() {}
+  teardown: function() {},
+  context: {
+    COUNT: 1000,
+    CHUNK_SIZE: 2,
+    DURATION_ASYNC_TASK: 0
+  }
 };
 
 new Benchmark.Suite('Iteration over Array')
 .add('highland', function(deferred) {
+  console.log('TEST', this.benchmark.compiled);
+  console.log('TEST', this.benchmark.context);
+  console.log('TEST', typeof ITERABLE);
+
   new Promise(function(resolve, reject) {
     _(ITERABLE)
       .batch(CHUNK_SIZE)
@@ -42,7 +49,7 @@ new Benchmark.Suite('Iteration over Array')
   .catch(err => deferred.reject(err));
 }, BENCH_OPTS)
 .on('error', function(event) {
-  console.error('ERROR:', event.target.error);
+  console.error('ERROR:', event.target.error, event.target.error.stack);
 })
 .on('cycle', function(event) {
   console.log(String(event.target));
