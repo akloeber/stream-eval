@@ -69,6 +69,7 @@ __Non functional requirements:__
 
 #### Most.js
 - most mature project
+- relatively small set of built-in operations
 - outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf
 - great promise support
 - completely reactive, no back-pressure

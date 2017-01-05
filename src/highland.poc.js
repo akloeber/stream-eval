@@ -3,23 +3,20 @@
 const _ = require('highland');
 const common = require('./common.poc');
 
-// const CONCURRENCY = 1; // can be achieved via stream#parallel()
-
-new Promise(function(resolve,reject) {
+new Promise(function(resolve, reject) {
   _(common.createIterable())
-    //.tap(x => console.log('READ', x))
     .batch(common.CHUNK_SIZE)
-    .map(x => {
-      console.log('ASYNC START', x);
+    .flatMap(x => {
       return _(new Promise(pResolve => {
+        console.log('ASYNC START', x);
         setTimeout(() => {
           console.log('ASYNC COMPLETE', x);
           pResolve(x);
         }, common.DURATION_ASYNC_TASK);
       }));
     })
-    .sequence()
-    .collect()
+    .last()
+    //.tap(x => console.log('TAP', x))
     .toCallback((err, result) => {
       if(err) {
         reject(err);

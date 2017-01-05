@@ -1,12 +1,16 @@
 'use strict';
 
+const DATA = [12, 34, 56, 78, 90];
+
 exports.createIterable = () => ({
   [Symbol.iterator]: function() {
     return {
-      data: [12, 34, 56, 78, 90],
+      _data: DATA,
+      _count: DATA.length,
+      _idx: 0,
       next: function() {
-        const done = this.data.length === 0;
-        const value = !done ? this.data.shift() : undefined;
+        const done = this._idx === this._count;
+        const value = !done ? this._data[this._idx++] : undefined;
 
         console.log(done ? 'IT END' : `IT VALUE ${value}`);
 
