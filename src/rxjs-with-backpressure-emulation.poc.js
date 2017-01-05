@@ -42,4 +42,3 @@ stream
   .then(lastVal => console.log('DONE', lastVal));
 
 request(common.CHUNK_SIZE * CONCURRENCY);
-

@@ -75,6 +75,7 @@ __Non functional requirements:__
 
 ### Other candidates:
 
+- zen-observable (https://github.com/zenparsing/zen-observable)
 - bluebird (http://bluebirdjs.com/)
 - Neo-Async (https://github.com/suguru03/neo-async)
 - xstream (https://github.com/staltz/xstream)
