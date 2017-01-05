@@ -25,7 +25,7 @@ new Benchmark.Suite('Iteration over Array')
         .batch(CHUNK_SIZE)
         .flatMap(x => {
           return _(new Promise(pResolve => {
-            setTimeout(() => {
+            process.nextTick(() => {
               pResolve(x);
             }, DURATION_ASYNC_TASK);
           }));
