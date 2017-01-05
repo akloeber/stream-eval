@@ -17,27 +17,17 @@ for (let idx = 0; idx < COUNT; idx++) {
 
 const ITERABLE = common.createIterable({data: DATA, quiet: true});
 
-new Benchmark.Suite('Iteration over Array')
+new Benchmark.Suite('Stream performance')
 .add('highland', {
   fn: function(deferred) {
     new Promise(function(resolve, reject) {
       _(ITERABLE)
         .batch(CHUNK_SIZE)
-        .flatMap(x => {
-          return _(new Promise(pResolve => {
-            process.nextTick(() => {
-              pResolve(x);
-            }, DURATION_ASYNC_TASK);
-          }));
-        })
+        .flatMap(x => _(new Promise(pResolve => {
+          process.nextTick(() => pResolve(x));
+        })))
         .last()
-        .toCallback((err, result) => {
-          if(err) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        });
+        .toCallback((err, result) => err ? reject(err) : resolve(result));
     })
     .then(() => deferred.resolve())
     .catch(err => deferred.reject(err));
