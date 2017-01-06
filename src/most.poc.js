@@ -1,11 +1,22 @@
 'use strict';
 
 const most = require('most');
+const mostSubject = require('most-subject');
 const transducers = require('transducers-js');
 
 const common = require('./common.poc');
+const Flowable = require('./Flowable');
 
-most.from(common.createIterable())
+const flow = new Flowable(common.createIterable());
+
+const subject = mostSubject.async();
+const sub = flow.subscribe({
+  next: (x) => subject.next(x),
+  complete: () => subject.complete()
+});
+sub.request(common.CHUNK_SIZE);
+
+subject
   //.tap(x => console.log('READ', x))
   .transduce(transducers.partitionAll(common.CHUNK_SIZE))
   .concatMap(x => {
@@ -15,6 +26,10 @@ most.from(common.createIterable())
         console.log('ASYNC COMPLETE', x);
         resolve(x);
       }, common.DURATION_ASYNC_TASK);
+    })
+    .then(val => {
+      sub.request(common.CHUNK_SIZE);
+      return val;
     }));
   })
   .drain()
