@@ -3,8 +3,11 @@
 /* eslint no-invalid-this:0, no-undef:0, no-unused-vars:0 */
 
 const Benchmark = require('benchmark');
+
 const common = require('../src/common.poc');
+
 const _ = require('highland');
+const Rx = require('rx');
 
 const COUNT = 20000;
 const CHUNK_SIZE = 2000;
@@ -18,7 +21,7 @@ for (let idx = 0; idx < COUNT; idx++) {
 const ITERABLE = common.createIterable({data: DATA, quiet: true});
 
 new Benchmark.Suite('Stream performance')
-.add('highland', {
+.add('Highland', {
   fn: function(deferred) {
     new Promise(function(resolve, reject) {
       _(ITERABLE)
@@ -31,6 +34,26 @@ new Benchmark.Suite('Stream performance')
     })
     .then(() => deferred.resolve())
     .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
+.add('RxJS 4', {
+  fn: function(deferred) {
+    const stream = Rx.Observable.from(ITERABLE).controlled();
+    stream.request(CHUNK_SIZE);
+
+    stream
+      .bufferWithCount(CHUNK_SIZE)
+      .selectMany(
+        x => new Promise(resolve => process.nextTick(() => resolve(x)))
+        .then(val => {
+          stream.request(CHUNK_SIZE);
+          return val;
+        })
+      )
+      .toPromise()
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
   },
   defer: true
 })
