@@ -1,11 +1,11 @@
 'use strict';
 
-const Rx = require('rxjs');
+const RxJS = require('rxjs');
 const common = require('./common.poc');
 
 const CONCURRENCY = 1;
 
-const stream = Rx.Observable.from(common.createIterable());
+const stream = RxJS.Observable.from(common.createIterable());
 
 // ATTENTION: no back-pressure support, so all values are read at once and buffered internally
 stream

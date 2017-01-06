@@ -1,32 +1,24 @@
 'use strict';
 
-const Rx = require('rxjs');
+const RxJS = require('rxjs');
 const common = require('./common.poc');
+const Flowable = require('./Flowable');
 
 const CONCURRENCY = 1;
 
-var request;
+const flow = new Flowable(common.createIterable());
 
-const it = common.createIterable()[Symbol.iterator]();
-const stream = Rx.Observable.create(function subscribe(observer) {
+var sub;
 
-  request = function(pCount) {
-    var count = pCount;
-    while (count-- > 0) {
-      let cur = it.next();
-      if (cur.done) {
-        observer.complete();
-        break;
-      } else {
-        observer.next(cur.value);
-      }
-    }
-  };
+const stream = RxJS.Observable.create(observer => {
+  sub = flow.subscribe({
+    next: (x) => observer.next(x),
+    complete: () => observer.complete()
+  });
+  sub.request(common.CHUNK_SIZE);
 });
 
 stream
-  //.do(x => console.log('READ', x))
-  .map(x => `(${x})`)
   .bufferCount(common.CHUNK_SIZE)
   .mergeMap(x => {
     console.log('ASYNC START', x);
@@ -34,11 +26,11 @@ stream
       setTimeout(() => {
         console.log('ASYNC COMPLETE', x);
         resolve(x);
-        request(common.CHUNK_SIZE * CONCURRENCY);
       }, common.DURATION_ASYNC_TASK);
+    }).then(val => {
+      sub.request(common.CHUNK_SIZE);
+      return val;
     });
   })
   .toPromise()
   .then(lastVal => console.log('DONE', lastVal));
-
-request(common.CHUNK_SIZE * CONCURRENCY);
