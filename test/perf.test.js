@@ -11,6 +11,9 @@ const _ = require('highland');
 const Rx = require('rx');
 const RxJS = require('rxjs');
 const Kefir = require('kefir');
+const most = require('most');
+const mostSubject = require('most-subject');
+const transducers = require('transducers-js');
 
 const COUNT = 20000;
 const CHUNK_SIZE = 2000;
@@ -148,6 +151,43 @@ new Benchmark.Suite('Stream performance')
         }))
       )
       .toPromise()
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
+.add('Most.js [no flow control]', {
+  fn: function(deferred) {
+    most.from(ITERABLE)
+      .transduce(transducers.partitionAll(CHUNK_SIZE))
+      .concatMap(x => most.fromPromise(new Promise(resolve => process.nextTick(() => resolve(x)))))
+      .drain()
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
+.add('Most.js [flow control on source]', {
+  fn: function(deferred) {
+    const flow = new Flowable(ITERABLE);
+
+    const subject = mostSubject.async();
+    const sub = flow.subscribe({
+      next: (x) => subject.next(x),
+      complete: () => subject.complete()
+    });
+    sub.request(CHUNK_SIZE);
+
+    subject
+      .transduce(transducers.partitionAll(CHUNK_SIZE))
+      .concatMap(
+        x => most.fromPromise(new Promise(resolve => process.nextTick(() => resolve(x)))
+        .then(val => {
+          sub.request(CHUNK_SIZE);
+          return val;
+        }))
+      )
+      .drain()
       .then(() => deferred.resolve())
       .catch(err => deferred.reject(err));
   },
