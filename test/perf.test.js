@@ -25,6 +25,7 @@ for (let idx = 0; idx < COUNT; idx++) {
 }
 
 const ITERABLE = common.createIterable({data: DATA, quiet: true});
+const FLOW = new Flowable(ITERABLE);
 
 new Benchmark.Suite('Stream performance')
 .add('Highland [back pressure]', {
@@ -65,12 +66,11 @@ new Benchmark.Suite('Stream performance')
 })
 .add('RxJS 4 [flow control on source]', {
   fn: function(deferred) {
-    const flow = new Flowable(ITERABLE);
     var sub;
 
     Rx.Observable
       .create(observer => {
-        sub = flow.subscribe({
+        sub = FLOW.subscribe({
           next: (x) => observer.onNext(x),
           complete: () => observer.onCompleted()
         });
@@ -104,12 +104,11 @@ new Benchmark.Suite('Stream performance')
 })
 .add('RxJS 5 [flow control on source]', {
   fn: function(deferred) {
-    const flow = new Flowable(ITERABLE);
     var sub;
 
     RxJS.Observable
       .create(observer => {
-        sub = flow.subscribe({
+        sub = FLOW.subscribe({
           next: (x) => observer.next(x),
           complete: () => observer.complete()
         });
@@ -131,12 +130,11 @@ new Benchmark.Suite('Stream performance')
 })
 .add('Kefir [flow control on source]', {
   fn: function(deferred) {
-    const flow = new Flowable(ITERABLE);
     var sub;
 
     Kefir
       .stream(emitter => {
-        sub = flow.subscribe({
+        sub = FLOW.subscribe({
           next: (x) => emitter.emit(x),
           complete: () => emitter.end()
         });
@@ -169,10 +167,8 @@ new Benchmark.Suite('Stream performance')
 })
 .add('Most.js [flow control on source]', {
   fn: function(deferred) {
-    const flow = new Flowable(ITERABLE);
-
     const subject = mostSubject.async();
-    const sub = flow.subscribe({
+    const sub = FLOW.subscribe({
       next: (x) => subject.next(x),
       complete: () => subject.complete()
     });
