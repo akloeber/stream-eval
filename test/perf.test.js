@@ -59,6 +59,33 @@ new Benchmark.Suite('Stream performance')
   },
   defer: true
 })
+.add('RxJS 4 [flow control on source]', {
+  fn: function(deferred) {
+    const flow = new Flowable(ITERABLE);
+    var sub;
+
+    Rx.Observable
+      .create(observer => {
+        sub = flow.subscribe({
+          next: (x) => observer.onNext(x),
+          complete: () => observer.onCompleted()
+        });
+        sub.request(CHUNK_SIZE);
+      })
+      .bufferWithCount(CHUNK_SIZE)
+      .selectMany(
+        x => new Promise(resolve => process.nextTick(() => resolve(x)))
+        .then(val => {
+          sub.request(CHUNK_SIZE);
+          return val;
+        })
+      )
+      .toPromise()
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
 .add('RxJS 5 [no flow control]', {
   fn: function(deferred) {
     RxJS.Observable
