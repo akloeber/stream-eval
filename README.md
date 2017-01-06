@@ -35,7 +35,7 @@
 - resolve `Promise` once all chunks have been processed
 
 __Non functional requirements:__
-- values should flow through stream only as fast as the ycan be processed by the task (back-pressure)
+- values should flow through stream only as fast as they can be processed by the task (back-pressure)
 - no complete consumption of source upfront in conjunction with intermediate buffering of the values
 - flow control should be implemented with back pressure rather than a controller for the emitting source which needs to be passed along explicitely
 
@@ -84,7 +84,7 @@ Fastest is 'RxJS 5 [no flow control]'
 #### Most.js
 - most mature project
 - relatively small set of built-in operations
-- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf
+- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf (really?)
 - great promise support
 - completely reactive, no back-pressure
 
