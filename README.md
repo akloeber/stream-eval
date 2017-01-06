@@ -39,6 +39,20 @@ __Non functional requirements:__
 - no complete consumption of source upfront in conjunction with intermediate buffering of the values
 - flow control should be implemented with back pressure rather than a controller for the emitting source which needs to be passed along explicitely
 
+### Performance
+```bash
+$ node test/perf.test.js 
+Highland [back pressure] x 53.44 ops/sec ±3.28% (61 runs sampled)
+RxJS 4 [flow control on stream] x 15.93 ops/sec ±5.93% (55 runs sampled)
+RxJS 4 [flow control on source] x 49.09 ops/sec ±3.88% (71 runs sampled)
+RxJS 5 [no flow control] x 203 ops/sec ±3.01% (72 runs sampled)
+RxJS 5 [flow control on source] x 169 ops/sec ±2.70% (68 runs sampled)
+Kefir [flow control on source] x 132 ops/sec ±2.68% (72 runs sampled)
+Most.js [no flow control] x 10.15 ops/sec ±3.04% (50 runs sampled)
+Most.js [flow control on source] x 67.02 ops/sec ±4.20% (62 runs sampled)
+Fastest is 'RxJS 5 [no flow control]'
+```
+
 ### Notes
 
 #### Highland.js
