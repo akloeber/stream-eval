@@ -8,6 +8,7 @@ const common = require('../src/common.poc');
 
 const _ = require('highland');
 const Rx = require('rx');
+const RxJS = require('rxjs');
 
 const COUNT = 20000;
 const CHUNK_SIZE = 2000;
@@ -39,6 +40,7 @@ new Benchmark.Suite('Stream performance')
 })
 .add('RxJS 4', {
   fn: function(deferred) {
+    // TODO: use Flowable
     const stream = Rx.Observable.from(ITERABLE).controlled();
     stream.request(CHUNK_SIZE);
 
@@ -51,6 +53,20 @@ new Benchmark.Suite('Stream performance')
           return val;
         })
       )
+      .toPromise()
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
+.add('RxJS 5', {
+  fn: function(deferred) {
+    // TODO: use Flowable
+    const stream = RxJS.Observable.from(ITERABLE);
+
+    stream
+      .bufferCount(CHUNK_SIZE)
+      .mergeMap(x => new Promise(resolve => process.nextTick(() => resolve(x))), null, 1)
       .toPromise()
       .then(() => deferred.resolve())
       .catch(err => deferred.reject(err));
