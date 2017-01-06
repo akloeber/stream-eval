@@ -10,6 +10,7 @@ const Flowable = require('../src/Flowable');
 const _ = require('highland');
 const Rx = require('rx');
 const RxJS = require('rxjs');
+const Kefir = require('kefir');
 
 const COUNT = 20000;
 const CHUNK_SIZE = 2000;
@@ -118,6 +119,33 @@ new Benchmark.Suite('Stream performance')
           sub.request(CHUNK_SIZE);
           return val;
         })
+      )
+      .toPromise()
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
+.add('Kefir [flow control on source]', {
+  fn: function(deferred) {
+    const flow = new Flowable(ITERABLE);
+    var sub;
+
+    Kefir
+      .stream(emitter => {
+        sub = flow.subscribe({
+          next: (x) => emitter.emit(x),
+          complete: () => emitter.end()
+        });
+        sub.request(CHUNK_SIZE);
+      })
+      .bufferWithCount(CHUNK_SIZE)
+      .flatMap(
+        x => Kefir.fromPromise(new Promise(resolve => process.nextTick(() => resolve(x)))
+        .then(val => {
+          sub.request(CHUNK_SIZE);
+          return val;
+        }))
       )
       .toPromise()
       .then(() => deferred.resolve())
