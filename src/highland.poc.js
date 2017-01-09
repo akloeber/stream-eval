@@ -12,12 +12,18 @@ new Promise(function(resolve, reject) {
         setTimeout(() => {
           console.log('ASYNC COMPLETE', x);
           pResolve(x);
-          //pReject(new Error('some error'));
+          // pReject(new Error('some error'));
         }, common.DURATION_ASYNC_TASK);
       }));
     })
-    .last()
+    //.last()
     //.tap(x => console.log('TAP', x))
+    .errors(function (err, push) {
+      reject(err);
+      push(err);
+    })
+    .done(resolve);
+    /*
     .toCallback((err, result) => {
       if(err) {
         reject(err);
@@ -25,6 +31,7 @@ new Promise(function(resolve, reject) {
         resolve(result);
       }
     });
+    */
 })
 .then(() => console.log('DONE'))
 .catch(err => console.log('ERROR', err));
