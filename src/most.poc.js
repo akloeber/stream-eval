@@ -2,10 +2,17 @@
 
 const most = require('most');
 const mostSubject = require('most-subject');
-const transducers = require('transducers-js');
+const mostChunksOf = require('most-chunksOf');
+//const transducers = require('transducers-js');
 
 const common = require('./common.poc');
 const Flowable = require('./Flowable');
+
+const chunksOf = mostChunksOf.chunksOf;
+
+most.Stream.prototype.chunksOf = function (n) {
+  return chunksOf(n, this);
+};
 
 const flow = new Flowable(common.createIterable());
 
@@ -18,7 +25,8 @@ sub.request(common.CHUNK_SIZE);
 
 subject
   //.tap(x => console.log('READ', x))
-  .transduce(transducers.partitionAll(common.CHUNK_SIZE))
+  //.transduce(transducers.partitionAll(common.CHUNK_SIZE))
+  .chunksOf(common.CHUNK_SIZE)
   .concatMap(x => {
     console.log('ASYNC START', x);
     return most.fromPromise(new Promise(resolve => {
