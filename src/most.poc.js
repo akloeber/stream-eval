@@ -9,7 +9,6 @@ const common = require('./common.poc');
 const Flowable = require('./Flowable');
 
 const chunksOf = mostChunksOf.chunksOf;
-
 most.Stream.prototype.chunksOf = function (n) {
   return chunksOf(n, this);
 };

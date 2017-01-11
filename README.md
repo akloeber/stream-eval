@@ -54,16 +54,17 @@ __Non functional requirements:__
 ### Performance
 ```bash
 $ node test/perf.test.js 
-Highland [back pressure] x 53.44 ops/sec ±3.28% (61 runs sampled)
-RxJS 4 [flow control on stream] x 15.93 ops/sec ±5.93% (55 runs sampled)
-RxJS 4 [flow control on source] x 49.09 ops/sec ±3.88% (71 runs sampled)
-RxJS 5 [no flow control] x 203 ops/sec ±3.01% (72 runs sampled)
-RxJS 5 [flow control on source] x 169 ops/sec ±2.70% (68 runs sampled)
-Kefir [flow control on source] x 132 ops/sec ±2.68% (72 runs sampled)
-Most.js [no flow control] x 10.15 ops/sec ±3.04% (50 runs sampled)
-Most.js [flow control on source] x 67.02 ops/sec ±4.20% (62 runs sampled)
+Highland [back pressure] x 75.62 ops/sec ±1.41% (70 runs sampled)
+RxJS 4 [flow control on stream] x 18.59 ops/sec ±3.06% (67 runs sampled)
+RxJS 4 [flow control on source] x 75.26 ops/sec ±2.22% (70 runs sampled)
+RxJS 5 [no flow control] x 312 ops/sec ±1.12% (82 runs sampled)
+RxJS 5 [flow control on source] x 258 ops/sec ±1.35% (78 runs sampled)
+Kefir [flow control on source] x 166 ops/sec ±1.58% (70 runs sampled)
+Most.js [no flow control] x 9.13 ops/sec ±1.19% (47 runs sampled)
+Most.js [flow control on source] x 113 ops/sec ±1.86% (74 runs sampled)
 Fastest is 'RxJS 5 [no flow control]'
 ```
+(node v4.4.7, Mac OS 10.12.2, Quadcore Intel Core i5 at 2.9 GHz)
 
 ### Notes
 

@@ -13,7 +13,14 @@ const RxJS = require('rxjs');
 const Kefir = require('kefir');
 const most = require('most');
 const mostSubject = require('most-subject');
+const mostChunksOf = require('most-chunksOf');
 const transducers = require('transducers-js');
+
+// make chunksOf chainable
+const chunksOf = mostChunksOf.chunksOf;
+most.Stream.prototype.chunksOf = function(n) {
+  return chunksOf(n, this);
+};
 
 const COUNT = 20000;
 const CHUNK_SIZE = 2000;
@@ -157,7 +164,7 @@ new Benchmark.Suite('Stream performance')
 .add('Most.js [no flow control]', {
   fn: function(deferred) {
     most.from(ITERABLE)
-      .transduce(transducers.partitionAll(CHUNK_SIZE))
+      .chunksOf(CHUNK_SIZE)
       .concatMap(x => most.fromPromise(new Promise(resolve => process.nextTick(() => resolve(x)))))
       .drain()
       .then(() => deferred.resolve())
@@ -175,7 +182,7 @@ new Benchmark.Suite('Stream performance')
     sub.request(CHUNK_SIZE);
 
     subject
-      .transduce(transducers.partitionAll(CHUNK_SIZE))
+      .chunksOf(CHUNK_SIZE)
       .concatMap(
         x => most.fromPromise(new Promise(resolve => process.nextTick(() => resolve(x)))
         .then(val => {
