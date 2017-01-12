@@ -77,7 +77,6 @@ Fastest is 'RxJS 5 [no flow control]'
 - active development towards v3 (tracked via https://github.com/caolan/highland/issues/179)
 
 #### Kefir
-- __blocker:__ no async processing support
 - no back-pressure
 - adequate performance
 - minimal size
@@ -97,7 +96,7 @@ Fastest is 'RxJS 5 [no flow control]'
 #### Most.js
 - most mature project
 - relatively small set of built-in operations
-- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf (really?)
+- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf (to be verified for this use case)
 - great promise support
 - completely reactive, no back-pressure
 
