@@ -54,18 +54,18 @@ __Non functional requirements:__
 ### Performance
 ```bash
 $ node test/perf.test.js
-Highland [back pressure] x 64.27 ops/sec ±3.43% (74 runs sampled)
-RxJS 4 [flow control on stream] x 16.28 ops/sec ±7.35% (54 runs sampled)
-RxJS 4 [flow control on source with Flowable] x 54.58 ops/sec ±2.53% (78 runs sampled)
-RxJS 5 [no flow control] x 326 ops/sec ±0.90% (85 runs sampled)
-RxJS 5 [flow control on source with Flowable] x 303 ops/sec ±1.03% (85 runs sampled)
-RxJS 5 [flow control on source with NEW Flowable] x 269 ops/sec ±0.99% (86 runs sampled)
-Kefir [flow control on source with Flowable] x 183 ops/sec ±1.41% (82 runs sampled)
-Kefir [flow control on source with NEW Flowable] x 222 ops/sec ±1.40% (83 runs sampled)
-Most.js [no flow control] x 9.39 ops/sec ±1.66% (48 runs sampled)
-Most.js [flow control on source with most-subject] x 143 ops/sec ±1.06% (81 runs sampled)
-Most.js [flow control on source with most-subject and NEW Flowable] x 138 ops/sec ±1.27% (82 runs sampled)
-Most.js [flow control on source with NEW Flowable] x 200 ops/sec ±1.07% (82 runs sampled)
+Highland [back pressure] x 71.16 ops/sec ±0.91% (80 runs sampled)
+RxJS 4 [flow control on stream] x 20.04 ops/sec ±3.22% (51 runs sampled)
+RxJS 4 [flow control on source with Flowable] x 77.84 ops/sec ±1.78% (72 runs sampled)
+RxJS 5 [no flow control] x 330 ops/sec ±0.87% (86 runs sampled)
+RxJS 5 [flow control on source with Flowable] x 288 ops/sec ±0.82% (85 runs sampled)
+RxJS 5 [flow control on source with NEW Flowable] x 265 ops/sec ±0.75% (84 runs sampled)
+Kefir [flow control on source with Flowable] x 244 ops/sec ±1.50% (84 runs sampled)
+Kefir [flow control on source with NEW Flowable] x 222 ops/sec ±1.19% (83 runs sampled)
+Most.js [no flow control] x 309 ops/sec ±1.99% (82 runs sampled)
+Most.js [flow control on source with most-subject] x 125 ops/sec ±0.70% (81 runs sampled)
+Most.js [flow control on source with most-subject and NEW Flowable] x 116 ops/sec ±1.14% (86 runs sampled)
+Most.js [flow control on source with NEW Flowable] x 194 ops/sec ±1.88% (80 runs sampled)
 Fastest is 'RxJS 5 [no flow control]'
 ```
 (node v4.4.7, Mac OS 10.12.2, Quadcore Intel Core i5 at 2.9 GHz)
