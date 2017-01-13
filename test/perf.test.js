@@ -270,6 +270,24 @@ new Benchmark.Suite('Stream performance')
   },
   defer: true
 })
+.add('Most.js [flow control on source with NEW Flowable and await]', {
+  fn: function(deferred) {
+    const flow = new FlowableNew(ITERABLE);
+
+    most
+      .from(flow.emit(CHUNK_SIZE))
+      .chunksOf(CHUNK_SIZE)
+      .map(
+        x => new Promise(resolve => process.nextTick(() => resolve(x)))
+          //.then(() => flow.emit(CHUNK_SIZE))
+      )
+      .await()
+      .observe(x => flow.emit(CHUNK_SIZE))
+      .then(() => deferred.resolve())
+      .catch(err => deferred.reject(err));
+  },
+  defer: true
+})
 .on('error', function(event) {
   console.error('ERROR:', event.target.error, event.target.error.stack);
 })
