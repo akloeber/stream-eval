@@ -53,15 +53,19 @@ __Non functional requirements:__
 
 ### Performance
 ```bash
-$ node test/perf.test.js 
-Highland [back pressure] x 75.62 ops/sec ±1.41% (70 runs sampled)
-RxJS 4 [flow control on stream] x 18.59 ops/sec ±3.06% (67 runs sampled)
-RxJS 4 [flow control on source] x 75.26 ops/sec ±2.22% (70 runs sampled)
-RxJS 5 [no flow control] x 312 ops/sec ±1.12% (82 runs sampled)
-RxJS 5 [flow control on source] x 258 ops/sec ±1.35% (78 runs sampled)
-Kefir [flow control on source] x 166 ops/sec ±1.58% (70 runs sampled)
-Most.js [no flow control] x 9.13 ops/sec ±1.19% (47 runs sampled)
-Most.js [flow control on source] x 113 ops/sec ±1.86% (74 runs sampled)
+$ node test/perf.test.js
+Highland [back pressure] x 64.27 ops/sec ±3.43% (74 runs sampled)
+RxJS 4 [flow control on stream] x 16.28 ops/sec ±7.35% (54 runs sampled)
+RxJS 4 [flow control on source with Flowable] x 54.58 ops/sec ±2.53% (78 runs sampled)
+RxJS 5 [no flow control] x 326 ops/sec ±0.90% (85 runs sampled)
+RxJS 5 [flow control on source with Flowable] x 303 ops/sec ±1.03% (85 runs sampled)
+RxJS 5 [flow control on source with NEW Flowable] x 269 ops/sec ±0.99% (86 runs sampled)
+Kefir [flow control on source with Flowable] x 183 ops/sec ±1.41% (82 runs sampled)
+Kefir [flow control on source with NEW Flowable] x 222 ops/sec ±1.40% (83 runs sampled)
+Most.js [no flow control] x 9.39 ops/sec ±1.66% (48 runs sampled)
+Most.js [flow control on source with most-subject] x 143 ops/sec ±1.06% (81 runs sampled)
+Most.js [flow control on source with most-subject and NEW Flowable] x 138 ops/sec ±1.27% (82 runs sampled)
+Most.js [flow control on source with NEW Flowable] x 200 ops/sec ±1.07% (82 runs sampled)
 Fastest is 'RxJS 5 [no flow control]'
 ```
 (node v4.4.7, Mac OS 10.12.2, Quadcore Intel Core i5 at 2.9 GHz)

@@ -4,7 +4,7 @@ const Rx = require('rx');
 const common = require('./common.poc');
 
 const stream = Rx.Observable
-  .from(common.createIterable(), el => `(${el})`)
+  .from(common.createIterable())
   .controlled();
 
 stream

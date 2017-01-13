@@ -15,17 +15,12 @@ Flowable.prototype.subscribe = function(observer) {
   const subscription = Observable.prototype.subscribe.call(this, observer);
 
   subscription._it = this._iterable[Symbol.iterator]();
+  subscription._done = false;
 
-  subscription.request = function(pCount) {
-    var count = pCount;
-    while (count--) {
-      let cur = this._it.next();
-      if (cur.done) {
-        this._observer.complete();
-        break;
-      } else {
-        this._observer.next(cur.value);
-      }
+  subscription.request = function(count) {
+
+    if (!this._done) {
+      process.nextTick(emitTask, this, count);
     }
 
     return this;
@@ -35,3 +30,17 @@ Flowable.prototype.subscribe = function(observer) {
 };
 
 module.exports = Flowable;
+
+function emitTask(subscription, n) {
+  var count = n;
+  while (count--) {
+    let cur = subscription._it.next();
+    if (cur.done) {
+      subscription._done = true;
+      subscription._observer.complete();
+      break;
+    } else {
+      subscription._observer.next(cur.value);
+    }
+  }
+}
