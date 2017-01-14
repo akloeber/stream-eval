@@ -43,11 +43,11 @@ __Non functional requirements:__
 
 #### Other libraries:
 
-- zen-observable (https://github.com/zenparsing/zen-observable)
-- bluebird (http://bluebirdjs.com/)
+- zen-observable (https://github.com/zenparsing/zen-observable); only support for `forEach`, `map`, `reduce`, `filter`, `flatMap` -> hard to implement batch support
+- bluebird (http://bluebirdjs.com/); Promise library -> best suited for single values
+- flyd (https://github.com/paldepind/flyd)
 - Neo-Async (https://github.com/suguru03/neo-async)
 - xstream (https://github.com/staltz/xstream)
-- flyd (https://github.com/paldepind/flyd)
 - EventStream (https://github.com/dominictarr/event-stream)
 - Axos (https://github.com/pjeby/axos)
 
@@ -101,7 +101,7 @@ Fastest is 'RxJS 5 [no flow control]'
 #### Most.js
 - most mature project
 - relatively small set of built-in operations
-- outperforms competitors regarding performance, see https://github.com/cujojs/most/tree/master/test/perf (to be verified for this use case)
+- good performance, see https://github.com/cujojs/most/tree/master/test/perf
 - great promise support
 - completely reactive, no back-pressure
 
