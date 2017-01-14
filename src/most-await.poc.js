@@ -18,13 +18,15 @@ most
   .chunksOf(common.CHUNK_SIZE)
   .map(x => {
     console.log('ASYNC START', x);
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('ASYNC COMPLETE', x);
         resolve(x);
+        //reject(new Error('some error'));
       }, common.DURATION_ASYNC_TASK);
     }).then(() => flow.emit(common.CHUNK_SIZE));
   })
   .await()
   .drain()
-  .then(() => console.log('DONE'));
+  .then(() => console.log('DONE'))
+  .catch(err => console.log('ERR', err));

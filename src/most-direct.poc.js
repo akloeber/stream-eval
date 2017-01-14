@@ -17,12 +17,14 @@ most
   .chunksOf(common.CHUNK_SIZE)
   .concatMap(x => {
     console.log('ASYNC START', x);
-    return most.fromPromise(new Promise(resolve => {
+    return most.fromPromise(new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('ASYNC COMPLETE', x);
         resolve(x);
+        //reject(new Error('some error'));
       }, common.DURATION_ASYNC_TASK);
     }));
   })
   .drain()
-  .then(() => console.log('DONE'));
+  .then(() => console.log('DONE'))
+  .catch(err => console.log('ERR', err));
